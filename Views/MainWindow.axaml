@@ -1,0 +1,57 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:FileApp.ViewModels"
+        xmlns:models="clr-namespace:FileApp.Models"
+        Title="File Manager"
+        Width="600" Height="400"
+        x:Class="FileApp.Views.MainWindow"
+        x:DataType="vm:FileViewModel">
+	<Design.DataContext>
+		<vm:FileViewModel/>
+	</Design.DataContext>
+
+	<StackPanel Margin="15" Spacing="10">
+		<TextBlock Text="File Manager" FontSize="16" FontWeight="Bold"/>
+
+		<StackPanel Orientation="Horizontal" Spacing="10">
+			<TextBox Watermark="Name" Width="150"
+                     Text="{Binding Name, Mode=TwoWay}"/>
+			<ComboBox ItemsSource="{Binding Categories}"
+                      SelectedItem="{Binding Category, Mode=TwoWay}"
+                      Width="100"/>
+			<TextBox Watermark="Size" Width="80"
+                     Text="{Binding Size, Mode=TwoWay}"
+                     IsEnabled="{Binding IsSizeEnabled}"/>
+			<TextBox Watermark="Path" Width="200"
+                     Text="{Binding Path, Mode=TwoWay}"/>
+			<Button Content="Add" Command="{Binding AddFileCommand}"/>
+		</StackPanel>
+
+		<ListBox ItemsSource="{Binding Files}" SelectedItem="{Binding SelectedFile, Mode=TwoWay}"
+                 Height="200">
+			<ListBox.ItemTemplate>
+				<DataTemplate x:DataType="models:File">
+					<StackPanel Orientation="Horizontal" Spacing="5">
+						<TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+						<TextBlock Text="|"/>
+						<TextBlock Text="{Binding Category}"/>
+						<TextBlock Text="| Size:"/>
+						<TextBlock Text="{Binding Size}"/>
+						<TextBlock Text="| Path:"/>
+						<TextBlock Text="{Binding Path}"/>
+					</StackPanel>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+
+		<StackPanel Orientation="Horizontal" Spacing="10">
+			<TextBox Watermark="New name" Width="150"
+                     Text="{Binding NewName, Mode=TwoWay}"/>
+			<Button Content="Rename" Command="{Binding RenameCommand}"/>
+			<TextBox Watermark="New path" Width="200"
+                     Text="{Binding NewPath, Mode=TwoWay}"/>
+			<Button Content="Copy" Command="{Binding CopyCommand}"/>
+			<Button Content="Move" Command="{Binding MoveCommand}"/>
+		</StackPanel>
+	</StackPanel>
+</Window>
